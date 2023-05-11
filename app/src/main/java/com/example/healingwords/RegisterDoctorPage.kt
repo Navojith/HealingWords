@@ -66,7 +66,7 @@ class RegisterDoctorPage : AppCompatActivity() {
                         Toast.makeText(this, "passwords doesn't match", Toast.LENGTH_LONG).show()
                     }
                 } else {
-                    Toast.makeText(this, "password should contain at-least 8 letters including uppercase & lowercase & digits",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "password should contain at-least 8 letters including uppercase & lowercase & digits & special characters",Toast.LENGTH_LONG).show()
                 }
             }else {
                 Toast.makeText(this, "Please fill in all the fields", Toast.LENGTH_LONG)
