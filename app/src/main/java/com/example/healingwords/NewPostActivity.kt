@@ -59,6 +59,8 @@ class NewPostActivity : AppCompatActivity() {
                             Toast.makeText(this, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
                         }
                 }
+            }else {
+                Toast.makeText(this,"Empty description", Toast.LENGTH_LONG).show()
             }
         }
 
