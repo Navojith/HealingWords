@@ -38,6 +38,7 @@ class CommentAdapterUser(private val postId: String, private val commentList: Ar
         val userId = currentitem.userId.toString()
         val commentId = currentitem.commentId
 
+        //invisible the edit button if comment is not from current user
         if(currentuser.toString() != userId){
             holder.commentEditImg.visibility = View.INVISIBLE
             //holder.commentDeleteImg.visibility = View.INVISIBLE
@@ -46,14 +47,14 @@ class CommentAdapterUser(private val postId: String, private val commentList: Ar
             holder.userId.setTextColor(holder.userId.context.getColor(R.color.success))
         }
 
-        database.child("Users").child(userId).get().addOnCompleteListener{ task ->
+        database.child("Users").child(userId).get().addOnCompleteListener{ task ->       //get user id
             if(task.isSuccessful){
                 val dataSnapshot = task.result
                 if(dataSnapshot.exists()){
                     val username = dataSnapshot.child("username").value.toString()
                     holder.userId.text = username
                 }else{
-                    database.child("Doctors").child(userId).get().addOnCompleteListener{ task ->
+                    database.child("Doctors").child(userId).get().addOnCompleteListener{ task ->     //get doctor id
                         if(task.isSuccessful){
                             val dataSnapshot = task.result
                             if(dataSnapshot.exists()){
@@ -75,6 +76,7 @@ class CommentAdapterUser(private val postId: String, private val commentList: Ar
             holder.itemView.context.startActivity(intent)
         }
 
+        //delete the comment
         holder.commentDeleteImg.setOnClickListener {
             val builder = AlertDialog.Builder(holder.contexts)
             builder.setTitle("Delete comment")
@@ -87,6 +89,7 @@ class CommentAdapterUser(private val postId: String, private val commentList: Ar
                         intent.putExtra("postId", postId)
                         holder.contexts.startActivity(intent)
                         // Finish the current activity
+
                         if (holder.contexts is Activity) {
                             (holder.contexts as Activity).finish()
                         }

@@ -25,6 +25,7 @@ class CommentUpdate : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comment_update)
 
+        //toolbar
         ToolBar = findViewById(R.id.updateCommentToolbar)
         setSupportActionBar(ToolBar)
         supportActionBar?.setTitle("Update comment")
@@ -34,6 +35,7 @@ class CommentUpdate : AppCompatActivity() {
         commentdb = FirebaseDatabase.getInstance().reference
         commentId = intent.getStringExtra("commentId") ?: ""
 
+        //retrive current comment
         commentdb.child("comments").child(commentId).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val dataSnapshot = task.result
@@ -48,7 +50,7 @@ class CommentUpdate : AppCompatActivity() {
             }
         }
 
-        updatebtn.setOnClickListener {
+        updatebtn.setOnClickListener {               //update comment
             val commment = commentBody.text.toString()
 
 
@@ -63,7 +65,7 @@ class CommentUpdate : AppCompatActivity() {
                             if (task.isSuccessful) {
                                 Toast.makeText(this, "comment updated", Toast.LENGTH_LONG).show()
                                 val mainIntent = Intent(this, MainActivity::class.java)
-                                mainIntent.putExtra("openFragment", "account")
+                                //mainIntent.putExtra("openFragment", "account")
                                 startActivity(mainIntent)
                                 finish()
                             } else {
@@ -77,7 +79,8 @@ class CommentUpdate : AppCompatActivity() {
                         }
                 }
             }
-
+                commentBody.error = "comment required"
+                return@setOnClickListener
 
         }
 

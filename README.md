@@ -1,6 +1,6 @@
 # HealingWords
 
-[Download Apk](https://github.com/ch4mi2/HealingWords/blob/8116c87f5949730eb7172bb41b5e89c37ea021c8/release/HealingWords.apk)
+[Download Apk](https://github.com/ch4mi2/HealingWords/blob/5d2692b979cff424f077b80d8bc45eb40f4c19cc/release/HealingWordsV0.1.1.apk)
 
 Video Introduction : [Click Here](https://www.linkedin.com/posts/chamithu-gunawardana-009909215_mobileappdevelopment-kotlin-sliit-activity-7060595507936571392-R-Rx?utm_source=share&utm_medium=member_desktop)
 

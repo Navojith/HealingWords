@@ -33,11 +33,19 @@ class AddComment : AppCompatActivity() {
 
             val comment = binding.commentBody.text.toString()
 
+            //validations
+            if (comment.isEmpty()){
+                binding.commentBody.error = "comment required"
+                return@setOnClickListener
+            }
+
 
             database = FirebaseDatabase.getInstance().getReference("comments")
 
             val commentId = database.push().key
             val Comment = Comment(commentId, comment, userId, postId )
+
+            //move to database
             database.child(commentId!!).setValue(Comment).addOnSuccessListener {
 
                 binding.commentBody.text.clear()
