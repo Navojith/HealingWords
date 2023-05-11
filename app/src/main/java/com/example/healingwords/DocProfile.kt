@@ -74,7 +74,9 @@ class DocProfile : Fragment() {
                 FirebaseDatabase.getInstance().getReference("Doctors").child(docUid).removeValue().addOnSuccessListener{
                     Toast.makeText(requireActivity(),"Deleted Successfully",Toast.LENGTH_LONG )
                     var intent = Intent(requireActivity(), LoginPage::class.java)
-                    FirebaseAuth.getInstance().currentUser?.delete()
+                    val currentUser =FirebaseAuth.getInstance().currentUser
+                    mAuth.signOut()
+                    currentUser?.delete()
                     startActivity(intent)
                     requireActivity().finish()
                 }
