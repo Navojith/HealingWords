@@ -52,7 +52,7 @@ class CommentAdapter(private val postId: String, private val commentList: ArrayL
             holder.userId.setTextColor(holder.userId.context.getColor(R.color.success))
         }
 
-
+        //get user id
         database.child("Users").child(userId).get().addOnCompleteListener{ task ->
             if(task.isSuccessful){
                 val dataSnapshot = task.result
@@ -60,6 +60,7 @@ class CommentAdapter(private val postId: String, private val commentList: ArrayL
                     val username = dataSnapshot.child("username").value.toString()
                     holder.userId.text = username
                 }else{
+                    //get doctor id
                     database.child("Doctors").child(userId).get().addOnCompleteListener{ task ->
                         if(task.isSuccessful){
                             val dataSnapshot = task.result
@@ -76,12 +77,14 @@ class CommentAdapter(private val postId: String, private val commentList: ArrayL
         //holder.userId.text = username
         holder.commentBody.text = currentitem.commentBody
 
+        //edit comment
         holder.commentEditImg.setOnClickListener {
             val intent = Intent(holder.itemView.context, CommentUpdate::class.java)
             intent.putExtra("commentId", commentId)
             holder.itemView.context.startActivity(intent)
         }
 
+        //delete comment
         holder.commentDeleteImg.setOnClickListener {
             val builder = AlertDialog.Builder(holder.contexts)
             builder.setTitle("Delete comment")
@@ -111,6 +114,7 @@ class CommentAdapter(private val postId: String, private val commentList: ArrayL
     }
 
     override fun getItemCount(): Int {
+        //return number of items
         return commentList.size
     }
 
