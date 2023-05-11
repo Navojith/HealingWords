@@ -35,34 +35,41 @@ class RegisterDoctorPage : AppCompatActivity() {
             var rating = 0
 
             if (username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && rePassword.isNotEmpty()) {
-                if(password == rePassword){
-                    regProgressBar.visibility = View.VISIBLE
-                    mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                val currentFirebaseUser = FirebaseAuth.getInstance().currentUser
-                                if(currentFirebaseUser != null) {
-                                    docDatabaseRef = FirebaseDatabase.getInstance().getReference("Doctors")
-                                    val doc = Doctor(currentFirebaseUser.uid,username, email, name, title, "", rating.toString())
-                                    docDatabaseRef.child(currentFirebaseUser.uid).setValue(doc).addOnSuccessListener {
-                                        sendToDocMain(currentFirebaseUser.uid)
-                                    }.addOnFailureListener {
-                                        Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show()
+                val passwordStatus = isValidPassword(password)
+                if (passwordStatus) {
+                    if(password == rePassword){
+                        regProgressBar.visibility = View.VISIBLE
+                        mAuth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    val currentFirebaseUser = FirebaseAuth.getInstance().currentUser
+                                    if(currentFirebaseUser != null) {
+                                        docDatabaseRef = FirebaseDatabase.getInstance().getReference("Doctors")
+                                        val doc = Doctor(currentFirebaseUser.uid,username, email, name, title, "", rating.toString())
+                                        docDatabaseRef.child(currentFirebaseUser.uid).setValue(doc).addOnSuccessListener {
+                                            sendToDocMain(currentFirebaseUser.uid)
+                                        }.addOnFailureListener {
+                                            Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show()
+                                        }
+
                                     }
 
+
+                                } else {
+                                    val errorMessage = task.exception?.message
+                                    Toast.makeText(this, "Error: $errorMessage", Toast.LENGTH_LONG).show()
                                 }
 
-
-                            } else {
-                                val errorMessage = task.exception?.message
-                                Toast.makeText(this, "Error: $errorMessage", Toast.LENGTH_LONG).show()
+                                regProgressBar.visibility = View.INVISIBLE
                             }
-
-                            regProgressBar.visibility = View.INVISIBLE
-                        }
-                }else{
-                    Toast.makeText(this, "passwords doesn't match", Toast.LENGTH_LONG).show()
+                    }else{
+                        Toast.makeText(this, "passwords doesn't match", Toast.LENGTH_LONG).show()
+                    }
+                } else {
+                    Toast.makeText(this, "password should contain at-least 8 letters including uppercase & lowercase & digits & special characters",Toast.LENGTH_LONG).show()
                 }
+            }else {
+                Toast.makeText(this, "Please fill in all the fields", Toast.LENGTH_LONG)
             }
         }
 
@@ -74,5 +81,15 @@ class RegisterDoctorPage : AppCompatActivity() {
         intent.putExtra("uid", uid)
         startActivity(intent)
         finish()
+    }
+
+    private fun isValidPassword(password: String): Boolean {
+        if (password.length < 8) return false
+        if (password.filter { it.isDigit() }.firstOrNull() == null) return false
+        if (password.filter { it.isLetter() }.filter { it.isUpperCase() }.firstOrNull() == null) return false
+        if (password.filter { it.isLetter() }.filter { it.isLowerCase() }.firstOrNull() == null) return false
+        if (password.filter { !it.isLetterOrDigit() }.firstOrNull() == null) return false
+
+        return true
     }
 }

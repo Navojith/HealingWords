@@ -30,7 +30,6 @@ class DocProfile : Fragment() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var tvName: TextView
     private lateinit var tvRating: TextView
-    private lateinit var tvBio: TextView
     private lateinit var tvTitle: TextView
     private lateinit var btnEdit: Button
     private lateinit var btnDelete: Button
@@ -50,7 +49,7 @@ class DocProfile : Fragment() {
 
 
         tvName = view.findViewById(R.id.tvDocName)
-        tvBio = view.findViewById(R.id.tvDocBio)
+
         tvRating = view.findViewById(R.id.tvTotalRatingDocProfile)
         tvTitle = view.findViewById(R.id.tvDocTitle)
         tvNoOfReviews = view.findViewById(R.id.docProfileNoOfReviews)
@@ -75,7 +74,9 @@ class DocProfile : Fragment() {
                 FirebaseDatabase.getInstance().getReference("Doctors").child(docUid).removeValue().addOnSuccessListener{
                     Toast.makeText(requireActivity(),"Deleted Successfully",Toast.LENGTH_LONG )
                     var intent = Intent(requireActivity(), LoginPage::class.java)
-                    FirebaseAuth.getInstance().currentUser?.delete()
+                    val currentUser =FirebaseAuth.getInstance().currentUser
+                    mAuth.signOut()
+                    currentUser?.delete()
                     startActivity(intent)
                     requireActivity().finish()
                 }
@@ -117,10 +118,10 @@ class DocProfile : Fragment() {
             if(it.exists()) {
                 var name = it.child("name").value
                 var title = it.child("title").value
-                var bio = it.child("bio").value
+
 
                 tvName.text = name.toString()
-                tvBio.text = bio.toString()
+
                 tvTitle.text = title.toString()
                 btnDelete.text = "Delete"
                 btnEdit.text = "Edit"
