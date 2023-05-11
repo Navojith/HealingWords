@@ -46,7 +46,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        android:contentDescription="title"
+        android:contentDescription="@string/title"
         android:text="@string/loading"
         android:textAlignment="center"
         android:textSize="20sp"
@@ -100,7 +100,7 @@
 
     <Button
         android:id="@+id/btnEditDocProfile"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginBottom="16dp"
@@ -116,7 +116,7 @@
 
     <Button
         android:id="@+id/btnDeleteDocProfile"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:background="@drawable/button_bg_danger"
